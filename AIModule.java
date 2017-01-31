@@ -23,7 +23,7 @@ public interface AIModule
      * @param map The terrain map to compute a path across.
      * @return The path from the start point to the end point.
      */
-    public List<Point> createPath(final TerrainMap map);
+    public List<Point> createPath(final TerrainMap map)
     {
         final ArrayList<Point> path = new ArrayList<Point>();
 
