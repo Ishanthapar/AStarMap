@@ -2,6 +2,7 @@
 import java.awt.Point;
 import java.util.List;
 
+
 /// Base class of all AI implementations
 /**
  * An interface representing a pathfinder AI interface.  The interface exports
@@ -23,12 +24,5 @@ public interface AIModule
      * @param map The terrain map to compute a path across.
      * @return The path from the start point to the end point.
      */
-    public List<Point> createPath(final TerrainMap map)
-    {
-        final ArrayList<Point> path = new ArrayList<Point>();
-
-        // Keep track of where we are and add the start point.
-        final Point CurrentPoint = map.getStartPoint();
-        path.add(new Point(CurrentPoint));
-    }
+    public List<Point> createPath(final TerrainMap map);
 }
