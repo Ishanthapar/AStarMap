@@ -340,6 +340,7 @@ public final class TerrainMap
         // Make sure that we start and end at the correct points.
         if(!path.get(0).equals(StartPoint) || !path.get(path.size() - 1).equals(EndPoint))
         {
+            System.out.println("Endpoint not added");
             throw new RuntimeException("Invalid Path");
         }
 
@@ -348,6 +349,7 @@ public final class TerrainMap
         {
             if(!isAdjacent(path.get(index), path.get(index + 1)))
             {
+                System.out.println("Path points not adjacent");
                 throw new RuntimeException("Invalid Path");
             }
         }
