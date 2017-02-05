@@ -1,4 +1,3 @@
-/*
 import java.awt.*;
 import java.awt.List;
 import java.util.*;
@@ -45,14 +44,14 @@ class PointF extends Point implements Comparable<PointF>
     }
 }
 
-public class ShortestPathAI implements AIModule
+public class ShortestPathAITest implements AIModule
 {
     private final ArrayList<Point> path = new ArrayList<Point>();
     private final ArrayList<Point> restructuredPath = new ArrayList<>();
     public static HashMap<Point, Double> Fscore;
     public java.util.List<Point> createPath(TerrainMap map)
     {
-        HashSet<Point> closedSet = new HashSet<Point>();
+        HashSet<PointF> closedSet = new HashSet<PointF>();
 //        final ArrayList<Point> closedSet = new ArrayList<Point>();
 
         TreeSet<PointF> openSet = new TreeSet<PointF>();
@@ -90,7 +89,7 @@ public class ShortestPathAI implements AIModule
 //                }
 //            }
             PointF current = openSet.pollFirst();
-//            System.out.println("Chosen Point: (" + current.x + "," + current.y + ")");
+            System.out.println("Chosen Point: (" + current.x + "," + current.y + ")");
 
             if (current.x == map.getEndPoint().x && current.y == map.getEndPoint().y){
                 //System.out.println("Inside if");
@@ -110,7 +109,7 @@ public class ShortestPathAI implements AIModule
             {
                 // might be able to have 0 here.
                 PointF neighbor = new PointF(neighbors[i], 0);
-                if (closedSet.contains(neighbors[i]))
+                if (closedSet.contains(neighbor))
                     continue;
                 gscore.get(current.point);
                 map.getCost(current.point, neighbors[i]);
@@ -131,16 +130,14 @@ public class ShortestPathAI implements AIModule
         return null;
     }
 
-    */
-/**
+    /**
      * Computes and returns heuristic cost for going from current point
      * to destination point. The heuristic function is Euclidean
      * distance between current and destination point.
      * @param pt1 The current point
      * @param pt2 The destination point
      * @return The heuristic cost for going from current point to destination point in the map
-     *//*
-
+     */
     private double getHeuristic(final Point pt1, final Point pt2)
     {
         double heuristicEstimate;
@@ -178,4 +175,3 @@ public class ShortestPathAI implements AIModule
         }
     }
 }
-*/

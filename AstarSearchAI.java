@@ -1,7 +1,5 @@
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -13,7 +11,8 @@ public class AstarSearchAI implements AIModule
     private final ArrayList<Point> restructuredPath = new ArrayList<>();
     public List<Point> createPath(TerrainMap map)
     {
-        final ArrayList<Point> closedSet = new ArrayList<Point>();
+//        final ArrayList<Point> closedSet = new ArrayList<Point>();
+        HashSet<Point> closedSet = new HashSet<Point>();
         final ArrayList<Point> openSet = new ArrayList<Point>();
         Point CurrentPoint = map.getStartPoint();
         Point current = CurrentPoint;
