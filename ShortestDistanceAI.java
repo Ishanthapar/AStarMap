@@ -21,7 +21,7 @@ public class ShortestDistanceAI implements AIModule{
         Point CurrentPoint = map.getStartPoint();
         path.add(new Point(CurrentPoint));
 
-        double totalCost = getHeuristic(CurrentPoint,map.getEndPoint());
+        //double totalCost = getHeuristic(CurrentPoint,map.getEndPoint());
         //totalCost = Double.MAX_VALUE;
         double tempCost;
         //Point[] neighbors = new Point[0];
@@ -39,19 +39,19 @@ public class ShortestDistanceAI implements AIModule{
                 if (explored.contains(neighbors[i]))
                     continue;
                 //explored.add(neighbors[i]);
-                tempCost = totalCost + map.getCost(CurrentPoint, neighbors[i]) + getHeuristic(neighbors[i], map.getEndPoint());
-                if (compareCost > tempCost)
-                    continue;
+                //tempCost = totalCost + map.getCost(CurrentPoint, neighbors[i]) + getHeuristic(neighbors[i], map.getEndPoint());
+                //if (compareCost > tempCost)
+                  //  continue;
                 tempPoint = neighbors[i];
                 explored.add(neighbors[i]);
                 //CurrentPoint = neighbors[i];
                 //path.add(neighbors[i]);
-                totalCost = tempCost;
+                //totalCost = tempCost;
             }
             CurrentPoint = tempPoint;
             System.out.println("New Current Point: (" + CurrentPoint.x + "," + CurrentPoint.y + ")");
             path.add(CurrentPoint);
-            totalCost = Integer.MAX_VALUE;
+            //totalCost = Integer.MAX_VALUE;
 
         }
 
@@ -75,7 +75,7 @@ public class ShortestDistanceAI implements AIModule{
      * @param pt2 The destination point
      * @return The heuristic cost for going from current point to destination point in the map
      */
-    private double getHeuristic(final Point pt1, final Point pt2)
+    /*private double getHeuristic(final Point pt1, final Point pt2)
     {
         double heuristicEstimate;
         double tempX = pt2.x - pt1.x;
@@ -84,5 +84,5 @@ public class ShortestDistanceAI implements AIModule{
         tempY = tempY * tempY;
         heuristicEstimate = Math.sqrt(tempX + tempY);
         return heuristicEstimate;
-    }
+    }*/
 }
