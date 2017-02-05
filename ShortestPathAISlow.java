@@ -1,6 +1,8 @@
-
-import java.awt.Point;
+/*
+import java.awt.*;
+import java.awt.List;
 import java.util.*;
+import java.awt.Point;
 
 // This class adds the Fscore attribute to the Point class. Also implements comparison by F score.
 class PointF extends Point implements Comparable<PointF>
@@ -15,14 +17,12 @@ class PointF extends Point implements Comparable<PointF>
 
     public int compareTo(PointF p2)
     {
-        if(x == p2.x && y == p2.y)
-            return 0;
         if(fScore < p2.fScore)
             return -1;
-//        else if(fScore == p2.fScore)
-//            return 0;
+        else if(fScore == p2.fScore)
+            return 0;
         else
-            return 1;
+            return -1;
     }
 }
 // Don't think we need this.
@@ -39,12 +39,12 @@ class pointCompare implements Comparator<PointF>
     }
 }
 
-public class ShortestPathAI implements AIModule
+public class ShortestPathAISlow implements AIModule
 {
     public static Point start;
     public static Point endpoint;
 
-    public List<Point> createPath(final TerrainMap map)
+    public java.util.List<Point> createPath(final TerrainMap map)
     {
         final ArrayList<Point> path = new ArrayList<Point>();
         Point start = map.getStartPoint();
@@ -68,7 +68,9 @@ public class ShortestPathAI implements AIModule
         // fscoreMap maps the f() value to the actual Point. TreeMap = sorted map, so first element = min of fscoreMap
         // TreeMap<Double, Point> fscoreMap = new TreeMap<Double, Point>();
 
-
+        // openSet is a TreeSet, meaning it is sorted in ascending order by fScore.
+        TreeSet<PointF> openSet = new TreeSet<PointF>();
+        openSet.add(new PointF(start, 0));
         HashMap<Point, Point> cameFrom = new HashMap<Point, Point>();
         // fscoreMap.put(hScore[start.x][start.y], map.getStartPoint());
 
@@ -88,9 +90,6 @@ public class ShortestPathAI implements AIModule
         gScore[start.x][start.y] = 0;
 
         double[][] fScore = gScore.clone();
-        // openSet is a TreeSet, meaning it is sorted in ascending order by fScore.
-        TreeSet<PointF> openSet = new TreeSet<PointF>();
-        openSet.add(new PointF(start, fScore[start.x][start.y]));
 
 //        Arrays.fill(fScore, Double.MAX_VALUE);
         fScore[start.x][start.y] = hScore[start.x][start.y];
@@ -102,8 +101,8 @@ public class ShortestPathAI implements AIModule
             if(current == endpoint)
                 return reconstruct_path(cameFrom, current);
             openSet.pollFirst();
-            // Could just give everything f score of 0, it doesn't really matter, since equality is by x and y coord
-            closedSet.add(new PointF(current, fScore[current.x][current.y]));
+            // Just give everything f score of 0, it doesn't really matter.
+            closedSet.add(new PointF(current, 0));
             Point[] neighbors = map.getNeighbors(current);
 
             for(Point neighborPoint : neighbors)
@@ -125,13 +124,12 @@ public class ShortestPathAI implements AIModule
                         + hScore[neighbor.x][neighbor.y];
             }
         }
-        System.out.println("wtf");
+
         return path;
     }
 
-    public List<Point> reconstruct_path(HashMap<Point, Point> cameFrom, Point current)
+    public java.util.List<Point> reconstruct_path(HashMap<Point, Point> cameFrom, Point current)
     {
-        System.out.println("we here fam");
         final ArrayList<Point> path = new ArrayList<Point>();
         path.add(current);
         while(cameFrom.containsKey(current))
@@ -144,4 +142,4 @@ public class ShortestPathAI implements AIModule
 
     }
 
-}
+}*/
