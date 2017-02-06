@@ -12,6 +12,7 @@ public class AstarSearchAIBetter implements AIModule
     public List<Point> createPath(TerrainMap map)
     {
 //        final ArrayList<Point> closedSet = new ArrayList<Point>();
+
         HashSet<Point> closedSet = new HashSet<Point>();
         final ArrayList<Point> openSet = new ArrayList<Point>();
         Point CurrentPoint = map.getStartPoint();
@@ -108,11 +109,24 @@ public class AstarSearchAIBetter implements AIModule
 
         // moving up
         double numSteps = (dx + dy) + -1 * Math.min(dx, dy);
-        if(h2 >= h1)
-            return 1 * ((dx + dy) + -1 * Math.min(dx, dy));
-//            return Math.sqrt(dx * dx + dy * dy);
-        else
-            return Math.pow(2, (h2 - h1) / numSteps) * numSteps;
+        // heuristic 1 - use Chebyshev distance if going up, if going down, use even steps
+//        if(h2 >= h1)
+//            return 1 * ((dx + dy) + -1 * Math.min(dx, dy));
+////            return Math.sqrt(dx * dx + dy * dy);
+//        else
+//            return Math.pow(2, (h2 - h1) / numSteps) * numSteps;
+
+        // heuristic 2 - use event steps every time
+        double tempHeight = h1;
+        double deltah = h1 - h2;
+        double cost = 0;
+        for(int i = 0; i < numSteps; i++)
+        {
+            double nextHeightDifference = deltah / numSteps;
+            cost += tempHeight / (tempHeight - nextHeightDifference + 1);
+            tempHeight -= nextHeightDifference;
+        }
+        return cost;
     }
 
 
