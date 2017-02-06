@@ -99,20 +99,20 @@ public class AstarSearchAIBetter implements AIModule
      */
     private double getHeuristic(TerrainMap map, final Point pt1, final Point pt2)
     {
-        return 0;
-//        double h1 = map.getTile(pt1);
-//        double h2 = map.getTile(pt2);
-//
-//        double dx = Math.abs(pt2.x - pt1.x);
-//        double dy = Math.abs(pt2.y - pt1.y);
-//
-//        // moving up
-//        double numSteps = (dx + dy) + (1 - 2) * Math.min(dx, dy);
-//        if(h2 >= h1)
-//            return 1 * ((dx + dy) + (1 - 2) * Math.min(dx, dy));
-////            return Math.sqrt(dx * dx + dy * dy);
-//        else
-//            return Math.pow(2, (h2 - h1) / numSteps) * numSteps;
+//        return 0;
+        double h1 = map.getTile(pt1);
+        double h2 = map.getTile(pt2);
+
+        double dx = Math.abs(pt2.x - pt1.x);
+        double dy = Math.abs(pt2.y - pt1.y);
+
+        // moving up
+        double numSteps = (dx + dy) + -1 * Math.min(dx, dy);
+        if(h2 >= h1)
+            return 1 * ((dx + dy) + -1 * Math.min(dx, dy));
+//            return Math.sqrt(dx * dx + dy * dy);
+        else
+            return Math.pow(2, (h2 - h1) / numSteps) * numSteps;
     }
 
 
