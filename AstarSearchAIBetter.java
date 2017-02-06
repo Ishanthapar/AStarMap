@@ -3,7 +3,8 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Created by Ishan on 2/3/17.
+ * Team Members: Ishan Thapar, 999104208 and Samir Rahman, 998988726
+ * Following wikipedia pseudocode: https://en.wikipedia.org/wiki/A*_search_algorithm
  */
 public class AstarSearchAIBetter implements AIModule
 {
@@ -11,55 +12,39 @@ public class AstarSearchAIBetter implements AIModule
     private final ArrayList<Point> restructuredPath = new ArrayList<>();
     public List<Point> createPath(TerrainMap map)
     {
-//        final ArrayList<Point> closedSet = new ArrayList<Point>();
         HashSet<Point> closedSet = new HashSet<Point>();
         final ArrayList<Point> openSet = new ArrayList<Point>();
         Point CurrentPoint = map.getStartPoint();
         Point current = CurrentPoint;
         openSet.add(CurrentPoint);
-        //path.add(CurrentPoint);
         double totalScore = Double.MAX_VALUE;
-        double gScore = 0.0;
-        double fScore = Double.MAX_VALUE;
-        double tempgScore = 0.0;
         HashMap<Point, Point> camefrom = new HashMap<>();
         HashMap<Point, Double> gscore = new HashMap<Point, Double>();
         HashMap<Point, Double> Fscore = new HashMap<>();
         gscore.put(CurrentPoint, 0.0);
         Fscore.put(CurrentPoint, getHeuristic(map, CurrentPoint, map.getEndPoint()));
-        //System.out.println(gscore.get(CurrentPoint));
 
         while (!openSet.isEmpty())
         {
             for (int i = 0; i < openSet.size(); i++)
             {
-                //tempgScore = gscore.get(openSet.get(i)) + map.getCost(current, openSet.get(i));
-                //double tempFscore = tempgScore + getHeuristic(openSet.get(i), map.getEndPoint());
                 double tempFscore = Fscore.get(openSet.get(i));
                 if (tempFscore < totalScore)
                 {
-                    //System.out.println(totalScore);
                     current = openSet.get(i);
                     totalScore = tempFscore;
                 }
             }
-            //System.out.println("Chosen Point: (" + current.x + "," + current.y + ")");
             totalScore = Double.MAX_VALUE;
 
-            if (current.x == map.getEndPoint().x && current.y == map.getEndPoint().y){
-                //System.out.println("Inside if");
-                //closedSet.add(current);
+            if (current.x == map.getEndPoint().x && current.y == map.getEndPoint().y)
+            {
                 path.add(current);
-                //return path;
-                //return reconstructPath(path, map);
                 return reconstructPath(camefrom, current);
-                //return reconstructPath(closedSet, map);
-                //break;
             }
 
             openSet.remove(current);
             closedSet.add(current);
-            //gScore = tempgScore;
 
             Point[] neighbors = map.getNeighbors(current);
             for (int i = 0; i < neighbors.length; i++)
@@ -68,8 +53,6 @@ public class AstarSearchAIBetter implements AIModule
                     continue;
 
                 double tempScore = gscore.get(current) + map.getCost(current, neighbors[i]);
-                //System.out.println(tempScore);
-                //System.out.println(map.getCost(map.getStartPoint(), neighbors[i]));
 
                 if (!openSet.contains(neighbors[i]))
                     openSet.add(neighbors[i]);
@@ -77,15 +60,11 @@ public class AstarSearchAIBetter implements AIModule
                 else if (tempScore >= gscore.get(neighbors[i]))
                     continue;
 
-                //System.out.println("Chosen Point: (" + neighbors[i].x + "," + neighbors[i].y + ")");
                 camefrom.put(neighbors[i],current);
                 gscore.put(neighbors[i], tempScore);
                 Fscore.put(neighbors[i], gscore.get(neighbors[i]) + getHeuristic(map, neighbors[i], map.getEndPoint()));
-                //path.add(neighbors[i]);
             }
         }
-
-        //return reconstructPath(path, map);
         return null;
     }
 
@@ -99,8 +78,15 @@ public class AstarSearchAIBetter implements AIModule
      */
     private double getHeuristic(TerrainMap map, final Point pt1, final Point pt2)
     {
-//        return 0;
-        double h1 = map.getTile(pt1);
+        double heuristicEstimate;
+        double tempX = pt2.x - pt1.x;
+        double tempY = pt2.y - pt1.y;
+        tempX = tempX * tempX;
+        tempY = tempY * tempY;
+        heuristicEstimate = Math.sqrt(tempX + tempY);
+        return heuristicEstimate;
+
+        /*double h1 = map.getTile(pt1);
         double h2 = map.getTile(pt2);
 
         double dx = Math.abs(pt2.x - pt1.x);
@@ -110,60 +96,28 @@ public class AstarSearchAIBetter implements AIModule
         double numSteps = (dx + dy) + -1 * Math.min(dx, dy);
         if(h2 >= h1)
             return 1 * ((dx + dy) + -1 * Math.min(dx, dy));
-//            return Math.sqrt(dx * dx + dy * dy);
         else
-            return Math.pow(2, (h2 - h1) / numSteps) * numSteps;
+            return Math.pow(2, (h2 - h1) / numSteps) * numSteps;*/
     }
 
-
+    /**
+     * Reconstructs optimal path to goal from a given HashMap containing all explored nodes.
+     * @param cameFrom HashMap containing explored nodes with possible optimal paths to goal
+     * @param currentNode Goal Node
+     * @return Shortest, most optimal path to goal beginning from start point and ending at end point
+     */
     private ArrayList<Point> reconstructPath(HashMap<Point, Point> cameFrom, Point currentNode)
     {
-        //System.out.println("Inside reconstructPath");
-        //System.out.println("("+currentNode.x+","+currentNode.y+")");
-        //path.add(currentNode);
         while (cameFrom.containsKey(currentNode))
         {
-            //System.out.println("Inside while in reconstruct path");
             currentNode = cameFrom.get(currentNode);
             path.add(currentNode);
         }
 
-        //System.out.println("Final Path:");
-
         for (int i = path.size()-1; i >= 0; i--)
         {
-            //System.out.println("("+path.get(i).x+","+path.get(i).y+")");
             restructuredPath.add(path.get(i));
         }
-
-        /*for (int i = 0; i < restructuredPath.size(); i++)
-        {
-            System.out.println("(" + restructuredPath.get(i).x + "," + restructuredPath.get(i).y + ")");
-        }*/
-
-        //Collections.reverse(path);
         return restructuredPath;
-
-        /*
-        ArrayList<Point> reconstructedPath = new ArrayList<Point>();
-        reconstructedPath.add(path.get(0));
-        for (int i = 0; i < reconstructedPath.size(); i++)
-        {
-            for (int j = 0; j < path.size(); j++)
-            {
-                if (!map.isAdjacent(reconstructedPath.get(i), path.get(j)))
-                {
-                    //System.out.println("Inside if");
-                    reconstructedPath.add(path.get(j));
-                    path.remove(path.get(j));
-                    break;
-                }
-            }
-        }
-        //for (int i = 0; i < reconstructedPath.size(); i++)
-        //{
-            //System.out.println("Chosen Point: (" + reconstructedPath.get(i).x + "," + reconstructedPath.get(i).y + ")");
-        //}
-        return reconstructedPath;*/
     }
 }

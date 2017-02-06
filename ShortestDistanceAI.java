@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Ishan on 2/2/17.
@@ -12,7 +14,7 @@ public class ShortestDistanceAI implements AIModule{
     //private double totalCost;
 
     //private double tempCost;
-
+    TreeSet<Point> temp = new TreeSet<>();
     //private double heuristicEstimate;
 
     public List<Point> createPath(final TerrainMap map){
