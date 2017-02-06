@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Ishan on 2/3/17.
  */
-public class AstarSearchAI implements AIModule
+public class AstarSearchAIBetter implements AIModule
 {
     private final ArrayList<Point> path = new ArrayList<Point>();
     private final ArrayList<Point> restructuredPath = new ArrayList<>();
@@ -26,7 +26,7 @@ public class AstarSearchAI implements AIModule
         HashMap<Point, Double> gscore = new HashMap<Point, Double>();
         HashMap<Point, Double> Fscore = new HashMap<>();
         gscore.put(CurrentPoint, 0.0);
-        Fscore.put(CurrentPoint, getHeuristic(CurrentPoint, map.getEndPoint()));
+        Fscore.put(CurrentPoint, getHeuristic(map, CurrentPoint, map.getEndPoint()));
         //System.out.println(gscore.get(CurrentPoint));
 
         while (!openSet.isEmpty())
@@ -80,7 +80,7 @@ public class AstarSearchAI implements AIModule
                 //System.out.println("Chosen Point: (" + neighbors[i].x + "," + neighbors[i].y + ")");
                 camefrom.put(neighbors[i],current);
                 gscore.put(neighbors[i], tempScore);
-                Fscore.put(neighbors[i], gscore.get(neighbors[i]) + getHeuristic(neighbors[i], map.getEndPoint()));
+                Fscore.put(neighbors[i], gscore.get(neighbors[i]) + getHeuristic(map, neighbors[i], map.getEndPoint()));
                 //path.add(neighbors[i]);
             }
         }
@@ -97,15 +97,22 @@ public class AstarSearchAI implements AIModule
      * @param pt2 The destination point
      * @return The heuristic cost for going from current point to destination point in the map
      */
-    private double getHeuristic(final Point pt1, final Point pt2)
+    private double getHeuristic(TerrainMap map, final Point pt1, final Point pt2)
     {
-        double heuristicEstimate;
-        double tempX = pt2.x - pt1.x;
-        double tempY = pt2.y - pt1.y;
-        tempX = tempX * tempX;
-        tempY = tempY * tempY;
-        heuristicEstimate = Math.sqrt(tempX + tempY);
-        return heuristicEstimate;
+        return 0;
+//        double h1 = map.getTile(pt1);
+//        double h2 = map.getTile(pt2);
+//
+//        double dx = Math.abs(pt2.x - pt1.x);
+//        double dy = Math.abs(pt2.y - pt1.y);
+//
+//        // moving up
+//        double numSteps = (dx + dy) + (1 - 2) * Math.min(dx, dy);
+//        if(h2 >= h1)
+//            return 1 * ((dx + dy) + (1 - 2) * Math.min(dx, dy));
+////            return Math.sqrt(dx * dx + dy * dy);
+//        else
+//            return Math.pow(2, (h2 - h1) / numSteps) * numSteps;
     }
 
 
